@@ -374,6 +374,7 @@ GETphp-x.php
 ![一句话木马](images/2024-02-24-22-46-23.png)
 利用panel功能页面的load功能点，直接包含了图片马
 可以执行命令。那么直接php反弹shell了
+![反弹shell](images/2024-02-25-00-53-23.png)
 ![shell](images/2024-02-24-23-25-51.png)
 拿到www-data的shell
 
