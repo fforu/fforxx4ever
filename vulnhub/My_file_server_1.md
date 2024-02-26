@@ -449,7 +449,7 @@ smbuser
 [smbuser@fileserver ~]$ ls
 [smbuser@fileserver ~]$ 
 ```
-
+## 提权
 ```bash
 [smbuser@fileserver ~]$ uname -a
 Linux fileserver 3.10.0-229.el7.x86_64 #1 SMP Fri Mar 6 11:36:42 UTC 2015 x86_64 x86_64 x86_64 GNU/Linux
