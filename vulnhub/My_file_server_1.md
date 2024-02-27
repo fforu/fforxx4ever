@@ -153,8 +153,6 @@ wdel           logon          listconnect    showconnect    tcon
 tdis           tid            utimes         logoff         ..             
 !              
 smb: \> prompt
-smb: \> ls -la
-NT_STATUS_NO_SUCH_FILE listing \-la
 smb: \> ls
   .                                   D        0  Mon Feb 26 12:45:08 2024
   ..                                  D        0  Tue Feb 18 06:47:54 2020
@@ -343,7 +341,6 @@ AuthorizedKeysFile      .ssh/authorized_keys
 ```bash
 ┌─[fforu@parrot]─[~/workspace]
 └──╼ $sudo gobuster dir -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt -u 192.168.99.48 -x txt,rar,zip,html
-[sudo] fforu 的密码：
 ===============================================================
 Gobuster v3.6
 by OJ Reeves (@TheColonial) & Christian Mehlmauer (@firefart)
