@@ -113,7 +113,7 @@ hello,
 
 now you are at level 0 stage.
 
-In real life pentesting we should use our tools to dig on a web very hard.
+In real life pentesting we shouln a d use our tools to dig oweb very hard.
 
 Happy hacking. 
 
@@ -212,7 +212,6 @@ DOWNLOADED: 46120 - FOUND: 15
 根据提示【In real life pentesting we should use our tools to dig on a web very hard.】，深度挖掘80web界面的信息
 
 ```bash
-根据提示【In real life pentesting we should use our tools to dig on a web very hard.】，深度挖掘80web界面的信息
 
 ┌─[fforu@parrot]─[~/workspace]
 └──╼ $sudo dirb http://192.168.99.39 -X .php,.txt
@@ -258,8 +257,7 @@ https://github.com/hacknpentest/Fuzzing/blob/master/Fuzz_For_Web
 
 ```bash
 ┌─[fforu@parrot]─[~/workspace]
-└──╼ $wfuzz -c -w /usr/share/wfuzz/wordlist/general/common.txt --hw 12 http://192.168.99.39
-/index.php?FUZZ=something
+└──╼ $wfuzz -c -w /usr/share/wfuzz/wordlist/general/common.txt --hw 12 http://192.168.99.39/index.php?FUZZ=something
  /usr/lib/python3/dist-packages/wfuzz/__init__.py:34: UserWarning:Pycurl is not compiled against Openssl. Wfuzz might not work correctly when fuzzing SSL sites. Check Wfuzz's documentation for more information.
 ********************************************************
 * Wfuzz 3.1.0 - The Web Fuzzer                         *
