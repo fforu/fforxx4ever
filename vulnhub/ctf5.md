@@ -143,6 +143,7 @@ cyrus:x:76:12:Cyrus IMAP Server:/var/lib/imap:/bin/bash
 ```
 这里可以发现用户很多
 用户很多的情况下，可以尝试查看敏感信息，用户可能残留敏感信息
+grep -R表示递归搜索 -i忽略大小写
 ```bash
 bash-3.2$ grep -R -i pass /home 2>/dev/null
 grep -R -i pass /home 2>/dev/null
