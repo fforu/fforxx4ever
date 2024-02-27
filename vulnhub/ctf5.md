@@ -100,8 +100,76 @@ Nmap done: 1 IP address (1 host up) scanned in 141.56 seconds
 
 google搜索nano的漏洞信息
 ![google search](images/2024-02-27-15-08-32.png)
+![/data/pagesdata.txt](images/2024-02-27-16-54-19.png)
 得到密码泄露后解密密码
 ![passwd](images/2024-02-27-15-39-14.png)
+或者hashcat也可解密
+```bash
+┌─[fforu@parrot]─[~/workspace]
+└──╼ $hashcat -m 0 -a 0 9d2f75377ac0ab991d40c91fd27e52fd /usr/share/wordlists/rockyou.txt 
+hashcat (v6.2.6) starting
+
+OpenCL API (OpenCL 3.0 PoCL 3.1+debian  Linux, None+Asserts, RELOC, SPIR, LLVM 15.0.6, SLEEF, DISTRO, POCL_DEBUG) - Platform #1 [The pocl project]
+==================================================================================================================================================
+* Device #1: pthread-haswell-AMD Ryzen 5 5600H with Radeon Graphics, 2895/5854 MB (1024 MB allocatable), 4MCU
+
+Minimum password length supported by kernel: 0
+Maximum password length supported by kernel: 256
+
+Hashes: 1 digests; 1 unique digests, 1 unique salts
+Bitmaps: 16 bits, 65536 entries, 0x0000ffff mask, 262144 bytes, 5/13 rotates
+Rules: 1
+
+Optimizers applied:
+* Zero-Byte
+* Early-Skip
+* Not-Salted
+* Not-Iterated
+* Single-Hash
+* Single-Salt
+* Raw-Hash
+
+ATTENTION! Pure (unoptimized) backend kernels selected.
+Pure kernels can crack longer passwords, but drastically reduce performance.
+If you want to switch to optimized kernels, append -O to your commandline.
+See the above message to find out about the exact limits.
+
+Watchdog: Temperature abort trigger set to 90c
+
+Host memory required for this attack: 1 MB
+
+Dictionary cache built:
+* Filename..: /usr/share/wordlists/rockyou.txt
+* Passwords.: 14344392
+* Bytes.....: 139921507
+* Keyspace..: 14344385
+* Runtime...: 1 sec
+
+9d2f75377ac0ab991d40c91fd27e52fd:shannon                  
+                                                          
+Session..........: hashcat
+Status...........: Cracked
+Hash.Mode........: 0 (MD5)
+Hash.Target......: 9d2f75377ac0ab991d40c91fd27e52fd
+Time.Started.....: Tue Feb 27 03:56:11 2024 (1 sec)
+Time.Estimated...: Tue Feb 27 03:56:12 2024 (0 secs)
+Kernel.Feature...: Pure Kernel
+Guess.Base.......: File (/usr/share/wordlists/rockyou.txt)
+Guess.Queue......: 1/1 (100.00%)
+Speed.#1.........:    14962 H/s (0.19ms) @ Accel:512 Loops:1 Thr:1 Vec:8
+Recovered........: 1/1 (100.00%) Digests (total), 1/1 (100.00%) Digests (new)
+Progress.........: 2048/14344385 (0.01%)
+Rejected.........: 0/2048 (0.00%)
+Restore.Point....: 0/14344385 (0.00%)
+Restore.Sub.#1...: Salt:0 Amplifier:0-1 Iteration:0-1
+Candidate.Engine.: Device Generator
+Candidates.#1....: 123456 -> lovers1
+Hardware.Mon.#1..: Util: 24%
+
+Started: Tue Feb 27 03:55:25 2024
+Stopped: Tue Feb 27 03:56:13 2024
+```
+
 得到第一组密码：admin/shannon
 登录到管理员后台
 
