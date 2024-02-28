@@ -340,6 +340,15 @@ baksteen@fowsniff:~$
 .ohdddddddddddddho:                  Delivering Solutions
 ```
 这个东西
+
+常规寻找思路
+
+id发现属于两个组
+
+`find / -group users -type f 2>/dev/null`
+
+![](images/2024-02-28-16-22-58.png)
+
 那么这个脚本的作用就是每次登录ssh都执行一次
 
 加入反弹shell语句开启监听即可
