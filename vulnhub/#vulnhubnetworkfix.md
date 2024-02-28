@@ -113,8 +113,14 @@ Linux系统的单用户模式是一种维护模式，适用于排查系统故障
 
 ## 配置网卡
 
-使用ifconfig将ip地址分配给网卡即可
-```bash
-sudo ifconfig eth0 192.168.1.10 netmask 255.255.255.0
-```
-![](images/2024-02-28-12-35-31.png)
+使用ifconfig将ip地址分配给网卡
+1.ip a查看网卡名称
+
+2.编辑`/etc/network/interfaces`文件，使ip a 的网卡名称与interfaces文件中网卡的名称一致
+vim /etc/network/interfaces
+![](images/2024-02-28-12-42-25.png)
+
+3.重启网卡服务
+/etc/init.d/networking restart
+
+ip a检查网络
