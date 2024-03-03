@@ -232,11 +232,7 @@ Export list for 10.10.10.6:
 新建一个目录去挂载
 ```bash
 ┌──(kali㉿kali)-[~/workspace]
-└─$ sudo mkdir mo                                                            
-[sudo] kali 的密码：
-对不起，请重试。
-[sudo] kali 的密码：
-                                                                                                                                                                                           
+└─$ sudo mkdir mo                                                                                                                                              
 ┌──(kali㉿kali)-[~/workspace]
 └─$ sudo mount 10.10.10.6:/home/morris mo
                                                                                                                                                                                            
