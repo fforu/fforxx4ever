@@ -10,7 +10,6 @@
 靶机存在任意文件读取
 首先得到.ssh/authorized_keys文件内容，公钥
 ![.ssh/authorized_keys](images/2024-03-06-13-00-05.png)
-
 涉及到prng
 pseudo randow number generator
 伪随机数生成器
@@ -63,7 +62,7 @@ keys provided by HD Moore - http://metasploit.com/users/hdm/tools/debian-openssl
 Bits, generated on an upatched debian (this is the key this exploit will
 break)
 
-4. Run the perl script and give it the location to where you extracted
+1. Run the perl script and give it the location to where you extracted
 the bzip2 mentioned.
 
 #!/usr/bin/perl
