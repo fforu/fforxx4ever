@@ -351,6 +351,9 @@ mercurymeandiameteris4880km
 
 ## 软连接提权
 
+![](images/2024-03-06-20-45-22.png)
+看到其中一个文件具有写权限
+
 ```bash
 linuxmaster@mercury:~$ ln -s /bin/vi tail
 linuxmaster@mercury:~$ ls -la
