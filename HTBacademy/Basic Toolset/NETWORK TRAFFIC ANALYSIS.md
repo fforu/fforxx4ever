@@ -294,3 +294,74 @@ less/greater“< >” |	less并可greater用于查找特定大小的数据包或
 and / ＆＆	|   and &&可用于将两个不同的过滤器连接在一起。例如，src 主机和端口。
 or	        |or允许在两个条件之一上进行匹配。它不必满足两者。这可能很棘手。
 not         |	not是一个修饰语，表示除 x 之外的任何内容。例如，不是 UDP。
+
+## wireshark
+
+### Tshark命令
+
+D	    将显示任何可用于捕获的界面，然后退出。
+L	    将列出您可以从中捕获然后退出的链路层媒体。（以以太网为例）
+i	    选择要从中捕获的接口。(-i eth0)
+f	    libpcap 语法中的数据包过滤器。在捕获期间使用。
+c	    抓取特定数量的数据包，然后退出程序。定义停止条件。
+a	    定义自动停止条件。可以在一段持续时间、特定文件大小或一定数量的数据包之后。
+r（pcap 文件）	从文件中读取。
+W（pcap 文件）	使用 pcapng 格式写入文件。
+P	    将在写入文件时打印数据包摘要（-W）
+x	    会将 Hex 和 ASCII 输出添加到捕获中。
+h	    查看帮助菜单
+
+
+### 使用示例
+
+监听网卡 eth0
+```bash
+┌──(kali㉿kali)-[~/workspace/tmp]
+└─$ sudo tshark -i eth0 -w  test.pcap
+Running as user "root" and group "root". This could be dangerous.
+Capturing on 'eth0'
+126 
+```
+使用-i和-w将捕获保存到指定输出文件的选项进行指定。
+
+#### 应用过滤器
+```bash
+┌──(kali㉿kali)-[~/workspace/tmp]
+└─$ sudo tshark -i eth0 -f "host 10.10.10.15"
+Running as user "root" and group "root". This could be dangerous.
+Capturing on 'eth0'
+    1 0.000000000   10.10.10.1 → 10.10.10.15  SSH 102 Client: Encrypted packet (len=48)
+    2 0.042204561  10.10.10.15 → 10.10.10.1   TCP 54 22 → 50943 [ACK] Seq=1 Ack=49 Win=249 Len=0
+    3 0.059795886   10.10.10.1 → 10.10.10.15  SSH 74 Client: Encrypted packet (len=20)
+    4 0.059811886 VMware_c0:00:08 → VMware_ea:bf:8d ARP 60 Who has 10.10.10.15? Tell 10.10.10.1
+    5 0.059871686 VMware_ea:bf:8d → VMware_c0:00:08 ARP 42 10.10.10.15 is at 00:0c:29:ea:bf:8d
+    6 0.060094786  10.10.10.15 → 10.10.10.1   TCP 54 22 → 50943 [ACK] Seq=1 Ack=69 Win=249 Len=0
+    7 0.063565691  10.10.10.15 → 10.10.10.1   SSH 90 Server: Encrypted packet (len=36)
+    8 0.120431674   10.10.10.1 → 10.10.10.15  TCP 60 50943 → 22 [ACK] Seq=69 Ack=37 Win=253 Len=0
+    9 0.333408982  10.10.10.15 → 10.10.10.1   SSH 874 Server: Encrypted packet (len=820)
+```
+
+### Wireshark GUI
+![](images/2024-03-12-10-54-16.png)
+1.数据包列表：Orange
+
+    在此窗口中，我们看到每个数据包的摘要行，其中默认包含下面列出的字段。
+    我们可以添加或删除列来更改显示的信息。
+Number - 数据包到达 Wireshark 的顺序
+Time - Unix 时间格式
+Source - 源IP
+Destination-目的地IP
+Protocol- 使用的协议（TCP、UDP、DNS、ECT。）
+Information - 有关数据包的信息。该字段可能会根据其中使用的协议类型而有所不同。例如，它将显示 DNS 数据包的查询类型。
+
+
+2.数据包详细信息：Blue
+
+“数据包详细信息”窗口允许我们深入了解数据包，以更详细地检查协议。它将按照典型的 OSI 模型参考将其分解为我们期望的块。数据包被分解为不同的封装层以进行检查。
+Wireshark 将以相反的顺序显示此封装，较低层封装位于窗口顶部，较高层封装位于底部。
+
+3.数据包字节：Green
+
+Packet Bytes 窗口允许我们查看 ASCII 或十六进制输出的数据包内容。当我们从上面的窗口中选择一个字段时，它将在“数据包字节”窗口中突出显示，并向我们显示该位或字节在整个数据包中的位置。
+这是验证我们在“详细信息”窗格中看到的内容是否准确以及 Wireshark 所做的解释是否与数据包输出相匹配的好方法。
+输出中的每一行包含数据偏移量、16 个十六进制字节和 16 个 ASCII 字节。不可打印的字节将替换为 ASCII 格式中的句点。
