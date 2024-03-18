@@ -1,6 +1,6 @@
 **wpscanapi**: tYtl343tIjp9AjUaIHnLdZHA3QaRestXTHc7aBI59Jw
 
-基础命令： wpscan –url IP_ADDRESS_OF_WEBSITE
+基础命令： wpscan –url IP_ADDRESS_OF_WEBSITE --api-token
 
 枚举：-e u:（枚举网站用户）
     命令： wpscan –url IP_ADDRESS_OF_WEBSITE -e u
