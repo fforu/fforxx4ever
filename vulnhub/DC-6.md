@@ -131,6 +131,8 @@ Shellcodes: No Results
 
 尝试命令执行后没什么结果，搜索工具的历史漏洞搜索到了
 
+## 第一个shell，反弹shell
+
 ```bash
 ┌──(kali㉿kali)-[~/workspace/DC6]
 └─$ python3 50110.py
