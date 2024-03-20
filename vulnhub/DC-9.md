@@ -337,6 +337,31 @@ fredf@dc-9:/opt/devstuff/dist/test$ sudo ./test /tmp/fforu /etc/passwd
 fredf@dc-9:/opt/devstuff/dist/test$ su fforu
 Password:
 root@dc-9:/opt/devstuff/dist/test#
+root@dc-9:/opt/devstuff/dist/test# cat /root/theflag.txt
+
+
+███╗   ██╗██╗ ██████╗███████╗    ██╗    ██╗ ██████╗ ██████╗ ██╗  ██╗██╗██╗██╗
+████╗  ██║██║██╔════╝██╔════╝    ██║    ██║██╔═══██╗██╔══██╗██║ ██╔╝██║██║██║
+██╔██╗ ██║██║██║     █████╗      ██║ █╗ ██║██║   ██║██████╔╝█████╔╝ ██║██║██║
+██║╚██╗██║██║██║     ██╔══╝      ██║███╗██║██║   ██║██╔══██╗██╔═██╗ ╚═╝╚═╝╚═╝
+██║ ╚████║██║╚██████╗███████╗    ╚███╔███╔╝╚██████╔╝██║  ██║██║  ██╗██╗██╗██╗
+╚═╝  ╚═══╝╚═╝ ╚═════╝╚══════╝     ╚══╝╚══╝  ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝╚═╝╚═╝
+
+Congratulations - you have done well to get to this point.
+
+Hope you enjoyed DC-9.  Just wanted to send out a big thanks to all those
+who have taken the time to complete the various DC challenges.
+
+I also want to send out a big thank you to the various members of @m0tl3ycr3w .
+
+They are an inspirational bunch of fellows.
+
+Sure, they might smell a bit, but...just kidding.  :-)
+
+Sadly, all things must come to an end, and this will be the last ever
+challenge in the DC series.
+
+So long, and thanks for all the fish.
 ```
 
 用perl生成加盐的hash值，写入到/etc/passwd并作为root用户
