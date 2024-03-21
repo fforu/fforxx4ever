@@ -239,7 +239,14 @@ root
 root@DeRPnStiNK:~/binaries# find / -name 'flag*' -type f -not -path '/sys/*' -not -path '/usr/*' 2>/dev/null
 /home/stinky/Desktop/flag.txt
 /root/Desktop/flag.txt
-root@DeRPnStiNK:~/binaries#
+root@DeRPnStiNK:~/binaries# cat /root/Desktop/flag.txt
+flag4(49dca65f362fee401292ed7ada96f96295eab1e589c52e4e66bf4aedda715fdd)
+
+Congrats on rooting my first VulnOS!
+
+Hit me up on twitter and let me know your thoughts!
+
+@securekomodo
 
 ```
 发现了一个可以执行脚本的sudo权限
