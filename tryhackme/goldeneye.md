@@ -14,8 +14,6 @@ PORT      STATE SERVICE
 55006/tcp open  unknown
 55007/tcp open  unknown
 
-Nmap done: 1 IP address (1 host up) scanned in 36.79 seconds
-
 ┌──(fforu㉿fforu)-[~/workspace]
 └─$ sudo nmap -sT -sCV -O -p25,80,55006,55007 10.10.190.1
 Starting Nmap 7.94SVN ( https://nmap.org ) at 2024-04-03 14:16 CST
