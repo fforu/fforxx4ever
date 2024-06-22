@@ -226,4 +226,181 @@ exschmenuating
 
 ### 80web页面
 ![](images/2024-05-29-23-21-38.png)
-这里提到的
+这里提到的有个文件包含了veroncia
+
+去rockyou中取出带有veroncia的字符串
+
+```bash
+┌─[✗]─[root@parrot]─[/home/fforu/workspace]
+└──╼ #dirb http://192.168.10.29/exschmenuating/ ver.list -X .cap
+
+-----------------
+DIRB v2.22
+By The Dark Raver
+-----------------
+
+START_TIME: Thu May 30 04:58:45 2024
+URL_BASE: http://192.168.10.29/exschmenuating/
+WORDLIST_FILES: ver.list
+EXTENSIONS_LIST: (.cap) | (.cap) [NUM = 1]
+
+-----------------
+
+GENERATED WORDS: 883
+
+---- Scanning URL: http://192.168.10.29/exschmenuating/ ----
++ http://192.168.10.29/exschmenuating/veronica$%.cap (CODE:400|SIZE:305)
++ http://192.168.10.29/exschmenuating/012987veronica.cap (CODE:200|SIZE:8700)
+
+-----------------
+END_TIME: Thu May 30 04:58:46 2024
+DOWNLOADED: 883 - FOUND: 2
+```
+
+有个流量包文件
+下载查看
+
+### 文件泄露
+```bash
+tcp0
+EHLO kali
+MAIL FROM:<eric@madisonhotels.com>
+RCPT TO:<vvaughn@polyfector.edu>
+DATA
+Date: Sat, 20 Aug 2016 21:56:50 -0500
+To: vvaughn@polyfector.edu
+From: eric@madisonhotels.com
+Subject: VIRUS ALERT!
+X-Mailer: swaks v20130209.0 jetmore.org/john/code/swaks/
+
+Hey Veronica, 
+
+Eric Gordon here.  
+
+I know you use Billy's machine more than he does, so I wanted to let you know that the company is rolling out a new antivirus program for all work-from-home users.  Just <a href="http://areallyreallybad.malware.edu.org.ru/f3fs0azjf.php">click here</a> to install it, k?  
+
+Thanks. -Eric
+
+tcp1
+EHLO kali
+MAIL FROM:<vvaughn@polyfector.edu>
+RCPT TO:<eric@madisonhotels.com>
+DATA
+Date: Sat, 20 Aug 2016 21:57:00 -0500
+To: eric@madisonhotels.com
+From: vvaughn@polyfector.edu
+Subject: test Sat, 20 Aug 2016 21:57:00 -0500
+X-Mailer: swaks v20130209.0 jetmore.org/john/code/swaks/
+RE: VIRUS ALERT!
+
+Eric,
+
+Thanks for your message. I tried to download that file but my antivirus blocked it.
+
+Could you just upload it directly to us via FTP?  We keep FTP turned off unless someone connects with the "Spanish Armada" combo.
+
+https://www.youtube.com/watch?v=z5YU7JwVy7s
+
+-VV
+
+tcp2
+EHLO kali
+MAIL FROM:<eric@madisonhotels.com>
+RCPT TO:<vvaughn@polyfector.edu>
+DATA
+Date: Sat, 20 Aug 2016 21:57:11 -0500
+To: vvaughn@polyfector.edu
+From: eric@madisonhotels.com
+Subject: test Sat, 20 Aug 2016 21:57:11 -0500
+X-Mailer: swaks v20130209.0 jetmore.org/john/code/swaks/
+RE[2]: VIRUS ALERT!
+
+Veronica,
+
+Thanks that will be perfect.  Please set me up an account with username of "eric" and password "ericdoesntdrinkhisownpee."
+
+-Eric
+
+
+.
+QUIT
+
+tcp3
+EHLO kali
+MAIL FROM:<vvaughn@polyfector.edu>
+RCPT TO:<eric@madisonhotels.com>
+DATA
+Date: Sat, 20 Aug 2016 21:57:21 -0500
+To: eric@madisonhotels.com
+From: vvaughn@polyfector.edu
+Subject: test Sat, 20 Aug 2016 21:57:21 -0500
+X-Mailer: swaks v20130209.0 jetmore.org/john/code/swaks/
+RE[3]: VIRUS ALERT!
+
+Eric,
+
+Done.
+
+-V
+
+
+.
+QUIT
+
+tcp4
+EHLO kali
+MAIL FROM:<eric@madisonhotels.com>
+RCPT TO:<vvaughn@polyfector.edu>
+DATA
+Date: Sat, 20 Aug 2016 21:57:31 -0500
+To: vvaughn@polyfector.edu
+From: eric@madisonhotels.com
+Subject: test Sat, 20 Aug 2016 21:57:31 -0500
+X-Mailer: swaks v20130209.0 jetmore.org/john/code/swaks/
+RE[4]: VIRUS ALERT!
+
+Veronica,
+
+Great, the file is uploaded to the FTP server, please go to a terminal and run the file with your account - the install will be automatic and you won't get any pop-ups or anything like that.  Thanks!
+
+-Eric
+
+
+.
+QUIT
+
+tcp5
+EHLO kali
+MAIL FROM:<vvaughn@polyfector.edu>
+RCPT TO:<eric@madisonhotels.com>
+DATA
+Date: Sat, 20 Aug 2016 21:57:41 -0500
+To: eric@madisonhotels.com
+From: vvaughn@polyfector.edu
+Subject: test Sat, 20 Aug 2016 21:57:41 -0500
+X-Mailer: swaks v20130209.0 jetmore.org/john/code/swaks/
+RE[5]: VIRUS ALERT!
+
+Eric,
+
+I clicked the link and now this computer is acting really weird.  The antivirus program is popping up alerts, my mouse started to move on its own, my background changed color and other weird stuff.  I'm going to send this email to you and then shut the computer down.  I have some important files I'm worried about, and Billy's working on his big 12th grade final.  I don't want anything to happen to that!
+
+-V
+
+
+.
+QUIT
+```
+
+有如下几个信息：
+
+vvaughn
+
+Spanish Armada
+
+eric/ericdoesntdrinkhisownpee
+
+Spanish Armada代表这几个数字（看题解的，视频里有按顺序提到
+1466, 1467, 1469, 1514, 1981, 1986
+
+那么肯定就是端口敲门啦
