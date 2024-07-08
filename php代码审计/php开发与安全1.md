@@ -258,3 +258,158 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $conn->close();
 }
 ```
+
+## cookie
+前台
+```php
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>简单登录功能</title>
+</head>
+
+<body>
+<h2>登录</h2>
+<form action="http://127.0.0.1/web/index.php" method="post">
+    <label for="username">用户名:</label>
+    <input type="text" id="username" name="username" required><br>
+
+    <label for="password">密码:</label>
+    <input type="password" id="password" name="password" required><br>
+
+
+    <input type="submit" value="登录">
+</form>
+</body>
+
+</html>
+```
+
+后端
+```php
+<?php
+// 验证和过滤用户输入
+if($_SERVER['REQUEST_METHOD'] === 'POST'){
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+}
+$validusername = 'root';
+$validpassword = 'root';
+
+// 做适当的验证和处理
+
+// 登录验证逻辑
+// ...
+if($username === $validusername && $password === $validpassword ){
+    echo "登录成功！" . htmlspecialchars($username);
+    // 设置一个时间
+    $expire = time() + 3600;
+
+// 设置一个cookie
+    setcookie("user", $username, $expire, "/");
+
+// 登录成功后，可以跳转到其他页面
+    header("Location: admin.php");
+    exit();
+}
+else{
+    echo "登录失败！";
+}
+?>
+```
+检验cookie
+```php
+<?php
+
+if(isset($_COOKIE['user'])){
+    $username = $_COOKIE['user'];
+
+    if($username === 'root'){
+        echo "hello!admin!". htmlspecialchars($username);
+    }else{
+        echo "go away!";
+    }
+}
+else{
+    echo "no cookie!";
+}
+```
+
+修改cookie，user=root就可以正常访问
+
+## session
+前台
+```php
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>简单登录功能</title>
+</head>
+
+<body>
+<h2>登录</h2>
+<form action="http://127.0.0.1/web/index.php" method="post">
+    <label for="username">用户名:</label>
+    <input type="text" id="username" name="username" required><br>
+
+    <label for="password">密码:</label>
+    <input type="password" id="password" name="password" required><br>
+
+
+    <input type="submit" value="登录">
+</form>
+</body>
+
+</html>
+```
+
+后端
+```php
+<?php
+// 验证和过滤用户输入
+if($_SERVER['REQUEST_METHOD'] === 'POST'){
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+}
+$validusername = 'root';
+$validpassword = 'root';
+
+// 做适当的验证和处理
+
+// 登录验证逻辑
+// ...
+if($username === $validusername && $password === $validpassword ){
+    // 设置session
+    session_start();
+    $_SESSION['user'] = $username;
+    echo "登录成功！" . htmlspecialchars($username);
+
+// 登录成功后，可以跳转到其他页面
+    header("Location: admin.php");
+    exit();
+}
+else{
+    echo "登录失败！";
+}
+?>
+```
+检验
+```php
+<?php
+session_start();
+
+// 设置会话数据
+if (isset($_SESSION['user']) && $_SESSION['user'] === 'root') {
+    // 用户已登录，可以允许访问受保护的内容
+    echo '欢迎来到后台';
+} else {
+    // 用户未登录，可能跳转到登录页面或显示登录提示
+    header("Location: login.html");
+    exit();
+}
+?>
+```
+seesion是随机生成的，以序列化形式存在临时文件中
+![](images/2024-07-08-16-43-06.png)
